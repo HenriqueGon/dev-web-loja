@@ -89,7 +89,7 @@
 					</a>
 				</nav>
 			</div>
-
+		
 			<div class="container" id="cadastro">
 				<form action="/administrativo/funcionarios/salvar" th:object="${funcionario}" method="POST">
 					<div class="form-row">
@@ -134,8 +134,8 @@
 							<label for="cidade">Cidade</label> <select th:field="*{cidade}" class="form-control">
 								<option th:each="cid: ${listaCidades}" th:value="${cid.id}" th:text="${cid.nome}"></option>
 							</select>
-
-
+		
+		
 							<div class="invalid-feedback"></div>
 						</div>
 						<div class="form-group col-md-6">
@@ -163,25 +163,23 @@
 							<div class="invalid-feedback"></div>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="cep">Cep</label> <input type="text" class="form-control" id="cep" data-mask="00000-000"
-								name="cep" value="" />
+							<label for="cep">Cep</label> <input type="text" class="form-control" id="cep" data-mask="00000-000" name="cep"
+								value="" />
 							<div class="invalid-feedback"></div>
 						</div>
 					</div>
-
+		
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="email">Email</label> <input type="text" class="form-control" id="email" name="email"
-								value="" />
+							<label for="email">Email</label> <input type="text" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" id="email" name="email" value="" />
 							<div class="invalid-feedback"></div>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="senha">Senha</label> <input type="text" class="form-control" id="senha" name="senha"
-								value="" />
+							<label for="senha">Senha</label> <input type="text" class="form-control" id="senha" name="senha" value="" />
 							<div class="invalid-feedback"></div>
 						</div>
 					</div>
-
+		
 					<input type="hidden" id="id" th:field="*{id}" value="" />
 					<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
 				</form>
