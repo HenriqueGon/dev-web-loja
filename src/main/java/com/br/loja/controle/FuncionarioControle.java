@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.loja.modelos.Funcionario;
+import com.br.loja.repositorios.CidadeRepositorio;
 import com.br.loja.repositorios.FuncionarioRepositorio;
 
 @Controller
@@ -19,48 +20,48 @@ public class FuncionarioControle {
 	
 	@Autowired
 	private FuncionarioRepositorio funcionarioRepositorio;
-
+	
+	@Autowired
+	private CidadeRepositorio cidadeRepositorio;
+	
+	
 	@GetMapping("/administrativo/funcionarios/cadastrar")
 	public ModelAndView cadastrar(Funcionario funcionario) {
-		ModelAndView mv = new ModelAndView("/administrativo/funcionarios/cadastro");
-		
-		mv.addObject("funcionario", funcionario);
-		
+		ModelAndView mv =  new ModelAndView("administrativo/funcionarios/cadastro");
+		mv.addObject("funcionario",funcionario);
+		mv.addObject("listaCidades",cidadeRepositorio.findAll());
 		return mv;
 	}
-
+	
 	@GetMapping("/administrativo/funcionarios/listar")
 	public ModelAndView listar() {
-		ModelAndView mv = new ModelAndView("administrativo/funcionarios/lista");
-		
-		mv.addObject("listaFuncionarios", this.funcionarioRepositorio.findAll());
-
+		ModelAndView mv=new ModelAndView("administrativo/funcionarios/lista");
+		mv.addObject("listaFuncionarios", funcionarioRepositorio.findAll());
 		return mv;
 	}
-
+	
 	@GetMapping("/administrativo/funcionarios/editar/{id}")
 	public ModelAndView editar(@PathVariable("id") Long id) {
-		Optional<Funcionario> funcionario = this.funcionarioRepositorio.findById(id);
-
+		Optional<Funcionario> funcionario = funcionarioRepositorio.findById(id);
 		return cadastrar(funcionario.get());
 	}
-
+	
 	@GetMapping("/administrativo/funcionarios/remover/{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
-		Optional<Funcionario> funcionario = this.funcionarioRepositorio.findById(id);
-		this.funcionarioRepositorio.delete(funcionario.get());
-
+		Optional<Funcionario> funcionario = funcionarioRepositorio.findById(id);
+		funcionarioRepositorio.delete(funcionario.get());
 		return listar();
 	}
-
+	
 	@PostMapping("/administrativo/funcionarios/salvar")
 	public ModelAndView salvar(@Valid Funcionario funcionario, BindingResult result) {
-		if (result.hasErrors()) {
+		
+		//System.out.println(result.getAllErrors());
+		if(result.hasErrors()) {
 			return cadastrar(funcionario);
 		}
-
-		this.funcionarioRepositorio.saveAndFlush(funcionario);
-
+		funcionarioRepositorio.saveAndFlush(funcionario);
+		
 		return cadastrar(new Funcionario());
 	}
 }
