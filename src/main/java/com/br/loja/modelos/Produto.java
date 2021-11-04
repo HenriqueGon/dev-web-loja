@@ -1,30 +1,35 @@
 package com.br.loja.modelos;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name = "produtos")
-public class Produto implements Serializable {
+public class Produto {
 
 	public Produto() {
 		super();
 	}
 
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private String descricao;
 	private Double valorVenda;
-	private String categoria;
-	private String marca;
+
+	@ManyToOne
+	private Categoria categoria;
+
+	@ManyToOne
+	private Marca marca;
+
 	private Double quantidadeEstoque=0.;
 	private String nomeImagem;
 	
@@ -52,19 +57,19 @@ public class Produto implements Serializable {
 		this.valorVenda = valorVenda;
 	}
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
-	public String getMarca() {
+	public Marca getMarca() {
 		return marca;
 	}
 
-	public void setMarca(String marca) {
+	public void setMarca(Marca marca) {
 		this.marca = marca;
 	}
 
