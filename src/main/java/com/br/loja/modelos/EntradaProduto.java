@@ -1,6 +1,5 @@
 package com.br.loja.modelos;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,13 +11,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "entrada_produto")
-public class EntradaProduto implements Serializable {
+public class EntradaProduto {
 
 	public EntradaProduto() {
 		super();
 	}
 
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

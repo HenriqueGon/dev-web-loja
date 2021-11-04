@@ -1,7 +1,5 @@
 package com.br.loja.modelos;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,13 +8,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "estado")
-public class Estado implements Serializable {
+public class Estado {
 
 	public Estado() {
 		super();
 	}
 
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

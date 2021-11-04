@@ -1,6 +1,5 @@
 package com.br.loja.modelos;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,12 +13,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="funcionario")
-public class Funcionario implements Serializable {
-	public Funcionario() {
-		super();
-	}
-
-	private static final long serialVersionUID = 1L;
+public class Funcionario {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
