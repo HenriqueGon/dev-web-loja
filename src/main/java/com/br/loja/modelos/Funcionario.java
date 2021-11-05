@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 @Entity
 @Table(name="funcionario")
 public class Funcionario {
@@ -36,6 +38,9 @@ public class Funcionario {
 	private String cep;
 	private String email;
 	private String senha;
+
+	@CPF(message = "Informe um CPF válido!")
+	private String cpf;
 
 	public Long getId() {
 		return id;
@@ -155,5 +160,13 @@ public class Funcionario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 }
