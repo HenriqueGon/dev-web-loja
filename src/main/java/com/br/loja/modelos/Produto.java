@@ -1,13 +1,14 @@
 package com.br.loja.modelos;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name = "produtos")
@@ -31,7 +32,9 @@ public class Produto {
 	private Marca marca;
 
 	private Double quantidadeEstoque=0.;
-	private String nomeImagem;
+	
+	@OneToMany(mappedBy = "produto")
+	private List<FotosProduto> fotos;
 	
 	public Long getId() {
 		return id;
@@ -81,11 +84,11 @@ public class Produto {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
-	public String getNomeImagem() {
-		return nomeImagem;
+	public List<FotosProduto> getFotos() {
+		return fotos;
 	}
 
-	public void setNomeImagem(String nomeImagem) {
-		this.nomeImagem = nomeImagem;
+	public void setFotos(List<FotosProduto> fotos) {
+		this.fotos = fotos;
 	}
 }

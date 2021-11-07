@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.br.loja.modelos.Categoria;
+import com.br.loja.modelos.FotosProduto;
+import com.br.loja.modelos.Marca;
 import com.br.loja.modelos.Produto;
 import com.br.loja.repositorios.CategoriaRepositorio;
+import com.br.loja.repositorios.FotosProdutoRepositorio;
 import com.br.loja.repositorios.MarcaRepositorio;
 import com.br.loja.repositorios.ProdutoRepositorio;
 
 @Controller
 public class ProdutoControle {
 
-	private static String caminhoImagens = "C:/Users/Dark Pumpkin/Documents/Dev/Projetos/dev-web-loja/imagens";
+	private int quantidadeLote = 50000;
+
+	private static String caminhoImagens = "C:\\Users\\Dark Pumpkin\\Documents\\Dev\\Projetos\\dev-web-loja\\imagens";
 
 	@Autowired
 	private ProdutoRepositorio produtoRepositorio;
@@ -37,6 +46,9 @@ public class ProdutoControle {
 
 	@Autowired
 	private MarcaRepositorio marcaRepositorio;
+
+	@Autowired
+	private FotosProdutoRepositorio fotosProdutoRepositorio;
 
 	@GetMapping("/administrativo/produtos/cadastrar")
 	public ModelAndView cadastrar(Produto produto) {
@@ -68,7 +80,7 @@ public class ProdutoControle {
 	}
 
 	@PostMapping("/administrativo/produtos/salvar")
-	public ModelAndView salvar(@Valid Produto produto, BindingResult result, @RequestParam("file") MultipartFile arquivo) {
+	public ModelAndView salvar(@Valid Produto produto, BindingResult result, @RequestParam("files") MultipartFile[] arquivos) {
 		if (result.hasErrors()) {
 			return cadastrar(produto);
 		}
@@ -76,14 +88,19 @@ public class ProdutoControle {
 		produtoRepositorio.saveAndFlush(produto);
 
 		try {
-			if (!arquivo.isEmpty()) {
-				byte[] bytes = arquivo.getBytes();
-				Path caminho = Paths.get(caminhoImagens + String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
-				Files.write(caminho, bytes);
+			if (arquivos.length > 0) {
+				for (MultipartFile arquivo : arquivos) {
+					byte[] bytes = arquivo.getBytes();
 
-				produto.setNomeImagem(String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
+					String nomeImagem = String.valueOf(produto.getId())+arquivo.getOriginalFilename();
 
-				produtoRepositorio.saveAndFlush(produto);
+					Path caminho =  Paths.get(caminhoImagens+nomeImagem);
+					Files.write(caminho, bytes);
+
+					FotosProduto fotosProduto = new FotosProduto(produto, nomeImagem);
+
+					this.fotosProdutoRepositorio.saveAndFlush(fotosProduto);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
