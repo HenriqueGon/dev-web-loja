@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.br.loja.modelos.Produto;
+import com.br.loja.repositorios.CategoriaRepositorio;
+import com.br.loja.repositorios.MarcaRepositorio;
 import com.br.loja.repositorios.ProdutoRepositorio;
 
 @Controller
@@ -30,10 +32,18 @@ public class ProdutoControle {
 	@Autowired
 	private ProdutoRepositorio produtoRepositorio;
 
+	@Autowired
+	private CategoriaRepositorio categoriaRepositorio;
+
+	@Autowired
+	private MarcaRepositorio marcaRepositorio;
+
 	@GetMapping("/administrativo/produtos/cadastrar")
 	public ModelAndView cadastrar(Produto produto) {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/cadastro");
 		mv.addObject("produto", produto);
+		mv.addObject("listaCategoria", categoriaRepositorio.findAll());
+		mv.addObject("listaMarca", marcaRepositorio.findAll());
 		return mv;
 	}
 
