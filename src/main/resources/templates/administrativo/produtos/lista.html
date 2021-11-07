@@ -22,6 +22,64 @@
 		</nav>
 
 		<div class="container">
+			<p>
+				<i class="oi oi-magnifying-glass"></i><span></span>
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDescricao"
+					aria-controls="collapseNome">Descrição</button>
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseCategoria"
+					aria-controls="collapseCargo">Categoria</button>
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMarca"
+					aria-controls="collapseData">Marca</button>
+			</p>
+
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseDescricao">
+			
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET" action="/administrativo/produtos/buscar">
+								<input class="form-control mr-sm-2" type="search" placeholder="Descrição" aria-label="Search" name="descricao" />
+								<button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+							</form>
+						</nav>
+			
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseCategoria">
+			
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET" action="/administrativo/produtos/buscar">
+								<select class="form-control mr-sm-2" name="categoria" aria-label="Search">
+									<option th:each="categoria: ${listaCategoria}" th:value="${categoria.id}" th:text="${categoria.nome}">
+									</option>
+								</select>
+								<button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+							</form>
+						</nav>
+			
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseMarca">
+			
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET" action="/administrativo/produtos/buscar">
+								<select class="form-control mr-sm-2" name="marca" aria-label="Search">
+									<option th:each="marca: ${listaMarca}" th:value="${marca.id}" th:text="${marca.nome}">
+									</option>
+								</select>
+								<button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+							</form>
+						</nav>
+			
+					</div>
+				</div>
+			</div>
 
 			<div class="table-responsive">
 				<table class="table table-striped table-hover table-sm">
@@ -31,6 +89,7 @@
 							<th>Descrição</th>
 							<th>Quantidade em Estoque</th>
 							<th>Valor de Venda</th>
+							<th class="text-center"> Imagens</th>
 							<th>Ações</th>
 						</tr>
 					</thead>
@@ -40,7 +99,31 @@
 							<td th:text="${produto.descricao}"></td>
 							<td th:text="${produto.quantidadeEstoque}"></td>
 							<td th:text="${produto.valorVenda}"></td>
+							<td>
+								<div class="text-center">
+									<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="2000">
+										<div class="carousel-inner">
+											<div class="carousel-item active">
+											</div>
 							
+											<div class="carousel-item" th:each="imagem : ${produto.getFotos()}">
+												<img width=100 th:src="@{/administrativo/produtos/mostrarImagem/{nome_imagem}(nome_imagem=${imagem.nome})}"
+													alt="Imagem do Produto">
+											</div>
+							
+										</div>
+										<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Anterior</span>
+										</a>
+										<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Próximo</span>
+										</a>
+									</div>
+								</div>
+							</td>
+
 							<td colspan="2"><a class="btn btn-info btn-sm"
 									th:href="@{/administrativo/produtos/editar/{id}(id=${produto.id})}" role="button"> <span
 										class="oi oi-brush" title="Editar" aria-hidden="true"></span>

@@ -11,7 +11,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.br.loja.modelos.Categoria;
 import com.br.loja.modelos.FotosProduto;
-import com.br.loja.modelos.Marca;
 import com.br.loja.modelos.Produto;
 import com.br.loja.repositorios.CategoriaRepositorio;
 import com.br.loja.repositorios.FotosProdutoRepositorio;
@@ -63,6 +60,8 @@ public class ProdutoControle {
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
 		mv.addObject("listaProdutos", produtoRepositorio.findAll());
+		mv.addObject("listaCategoria", categoriaRepositorio.findAll());
+		mv.addObject("listaMarca", marcaRepositorio.findAll());
 		return mv;
 	}
 
@@ -137,6 +136,26 @@ public class ProdutoControle {
 			return Files.readAllBytes(imagemArquivo.toPath());
 		}
 		return null;
+	}
+
+	@GetMapping("/administrativo/produtos/buscar")
+	public ModelAndView filtrarProdutos(@RequestParam(name = "descricao", required = false) String descricao, @RequestParam(name = "categoria", required = false) Long categoria,
+	@RequestParam(name = "marca", required = false) Long marca) {
+	
+		ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
+
+		if (descricao != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByDescricao(descricao));
+		} else if (categoria != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByCategoria(categoria));
+		} else if (marca != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByMarca(marca));
+		}
+
+		mv.addObject("listaCategoria", categoriaRepositorio.findAll());
+		mv.addObject("listaMarca", marcaRepositorio.findAll());
+
+		return mv;
 	}
 
 }
