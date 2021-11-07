@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ImagemControle {
-  private static String caminhoImagens = "C:/Users/Dark Pumpkin/Documents/Dev/Projetos/dev-web-loja/imagens";
+  private static String caminhoImagens = "C:\\Users\\Dark Pumpkin\\Documents\\Dev\\Projetos\\dev-web-loja\\imagens";
 
   @GetMapping("/mostrarImagem/{imagem}")
   @ResponseBody
