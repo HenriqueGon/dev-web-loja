@@ -172,7 +172,8 @@ public class Funcionario {
 
 	public void setTokenSenha(String tokenSenha) {
 		this.tokenSenha = tokenSenha;
-    
+	}
+	
 	public String getCpf() {
 		return cpf;
 	}

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 @Table(name = "fotos_produto")
 public class FotosProduto {
 
+  public FotosProduto() {}
+
   public FotosProduto(Produto produto, String nome) {
     this.setProduto(produto);
     this.setNome(nome);

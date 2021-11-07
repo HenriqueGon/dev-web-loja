@@ -31,6 +31,7 @@
 							<th>Descrição</th>
 							<th>Quantidade em Estoque</th>
 							<th>Valor de Venda</th>
+							<th class="text-center"> Imagens</th>
 							<th>Ações</th>
 						</tr>
 					</thead>
@@ -40,7 +41,31 @@
 							<td th:text="${produto.descricao}"></td>
 							<td th:text="${produto.quantidadeEstoque}"></td>
 							<td th:text="${produto.valorVenda}"></td>
+							<td>
+								<div class="text-center">
+									<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="2000">
+										<div class="carousel-inner">
+											<div class="carousel-item active">
+											</div>
 							
+											<div class="carousel-item" th:each="imagem : ${produto.getFotos()}">
+												<img width=100 th:src="@{/administrativo/produtos/mostrarImagem/{nome_imagem}(nome_imagem=${imagem.nome})}"
+													alt="Imagem do Produto">
+											</div>
+							
+										</div>
+										<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Anterior</span>
+										</a>
+										<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Próximo</span>
+										</a>
+									</div>
+								</div>
+							</td>
+
 							<td colspan="2"><a class="btn btn-info btn-sm"
 									th:href="@{/administrativo/produtos/editar/{id}(id=${produto.id})}" role="button"> <span
 										class="oi oi-brush" title="Editar" aria-hidden="true"></span>

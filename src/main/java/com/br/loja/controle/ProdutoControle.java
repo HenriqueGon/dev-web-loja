@@ -11,7 +11,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.br.loja.modelos.Categoria;
 import com.br.loja.modelos.FotosProduto;
-import com.br.loja.modelos.Marca;
 import com.br.loja.modelos.Produto;
 import com.br.loja.repositorios.CategoriaRepositorio;
 import com.br.loja.repositorios.FotosProdutoRepositorio;
