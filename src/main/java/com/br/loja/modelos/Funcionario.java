@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -36,8 +37,11 @@ public class Funcionario {
 	private String bairro;
 	private String uf;
 	private String cep;
+
+	@Email(message = "Informe um e-mail válido!")
 	private String email;
 	private String senha;
+	private String tokenSenha;
 
 	@CPF(message = "Informe um CPF válido!")
 	private String cpf;
@@ -161,7 +165,14 @@ public class Funcionario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+  
+	public String getTokenSenha() {
+		return tokenSenha;
+	}
 
+	public void setTokenSenha(String tokenSenha) {
+		this.tokenSenha = tokenSenha;
+    
 	public String getCpf() {
 		return cpf;
 	}
