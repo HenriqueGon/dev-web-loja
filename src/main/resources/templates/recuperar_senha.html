@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Página de login</title>
+  <title>Página de Recuperação de Senha</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -50,21 +50,19 @@
 
 <body>
   <div class="login-form">
-    <form th:action="@{/login}" method="post">
-      <h2 class="text-center">Login do Painel Administrativo</h2>
-      <div class="form-group">
-        <input type="text" name="username" class="form-control" placeholder="Email" required="required">
-      </div>
-      <div class="form-group">
-        <input type="password" name="password" class="form-control" placeholder="Senha" required="required">
+    <form th:action="@{/recuperar_senha}" method="post">
+      <h2 class="text-center">Recuperação de Senha</h2>
+
+      <div class='text-center'>
+        <p> Estaremos enviando um link de redefinição de senha para o seu e-mail </p>
       </div>
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+        <input type="text" class="form-control" name="email" id="email" placeholder="Digite seu e-mail" required autofocus/>
       </div>
 
-      <div class="form-group text-center">
-        <a th:href="@{/recuperar_senha}"> Esqueceu sua senha? </a>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Enviar</button>
       </div>
     </form>
   </div>
