@@ -38,7 +38,7 @@ public class Funcionario {
 	private String uf;
 	private String cep;
 
-	@Email(message = "Informe um e-mail válido!")
+	@Email(message = "Informe um E-mail válido!")
 	private String email;
 	private String senha;
 	private String tokenSenha;
