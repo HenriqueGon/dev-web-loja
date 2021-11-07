@@ -61,10 +61,31 @@ public class FuncionarioControle {
 			return cadastrar(funcionario);
 		}
 
-		funcionario.setSenha(new BCryptPasswordEncoder().encode(funcionario.getSenha()));
 		funcionarioRepositorio.saveAndFlush(funcionario);
 
 		return cadastrar(new Funcionario());
+	}
+
+	public void recuperacaoSenha(String token, String email) {
+		Funcionario funcionario = funcionarioRepositorio.findByEmail(email);
+
+		if (funcionario != null) {
+			funcionario.setTokenSenha(token);
+
+			funcionarioRepositorio.save(funcionario);
+		} 
+	}
+
+	public Funcionario getToken(String token) {
+		return funcionarioRepositorio.findByTokenSenha(token);
+	}
+	
+	public void alterarSenha(Funcionario funcionario, String senha) {
+		funcionario.setSenha(new BCryptPasswordEncoder().encode(senha));
+
+		funcionario.setTokenSenha(null);
+
+		funcionarioRepositorio.save(funcionario);
 	}
 
 }

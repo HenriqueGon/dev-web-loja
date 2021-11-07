@@ -50,21 +50,16 @@
 
 <body>
   <div class="login-form">
-    <form th:action="@{/login}" method="post">
-      <h2 class="text-center">Login do Painel Administrativo</h2>
+    <form th:action="@{/alterar_senha}" method="post">
+      <input type="hidden" name="token" th:value="${token}" />
+
+      <h2 class="text-center">Alterar Senha</h2>
       <div class="form-group">
-        <input type="text" name="username" class="form-control" placeholder="Email" required="required">
-      </div>
-      <div class="form-group">
-        <input type="password" name="password" class="form-control" placeholder="Senha" required="required">
+        <input type="password" name="password" class="form-control" placeholder="Digite sua nova senha" required autofocus>
       </div>
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-      </div>
-
-      <div class="form-group text-center">
-        <a th:href="@{/recuperar_senha}"> Esqueceu sua senha? </a>
+        <button type="submit" class="btn btn-primary btn-block">Confirmar</button>
       </div>
     </form>
   </div>

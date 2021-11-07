@@ -109,13 +109,31 @@ public class ProdutoControle {
 		return cadastrar(new Produto());
 	}
 
+	@GetMapping("/administrativo/produtos/salvar/lote")
+	public ModelAndView salvarLote() {
+
+		List<Produto> produtos = new ArrayList<Produto>();
+
+		for (int i = 0; i < this.quantidadeLote; i++) {
+			Produto produto = new Produto();
+			produto.setDescricao("Inserção Automática " + i);
+			produto.setValorVenda(i * 3.0);
+			produto.setQuantidadeEstoque(i + 13.0);
+
+			produtos.add(produto);
+		}
+
+		this.quantidadeLote += 50000;
+		produtoRepositorio.saveAllAndFlush(produtos);
+
+		return cadastrar(new Produto());
+	}
+
 	@GetMapping("/administrativo/produtos/mostrarImagem/{imagem}")
 	@ResponseBody
 	public byte[] retornarImagem(@PathVariable("imagem") String imagem) throws IOException {
-		// System.out.println(imagem);
 		File imagemArquivo = new File(caminhoImagens + imagem);
 		if (imagem != null || imagem.trim().length() > 0) {
-			System.out.println("No IF");
 			return Files.readAllBytes(imagemArquivo.toPath());
 		}
 		return null;
