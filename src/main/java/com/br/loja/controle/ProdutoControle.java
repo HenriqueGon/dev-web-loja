@@ -60,6 +60,8 @@ public class ProdutoControle {
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
 		mv.addObject("listaProdutos", produtoRepositorio.findAll());
+		mv.addObject("listaCategoria", categoriaRepositorio.findAll());
+		mv.addObject("listaMarca", marcaRepositorio.findAll());
 		return mv;
 	}
 
@@ -134,6 +136,26 @@ public class ProdutoControle {
 			return Files.readAllBytes(imagemArquivo.toPath());
 		}
 		return null;
+	}
+
+	@GetMapping("/administrativo/produtos/buscar")
+	public ModelAndView filtrarProdutos(@RequestParam(name = "descricao", required = false) String descricao, @RequestParam(name = "categoria", required = false) Long categoria,
+	@RequestParam(name = "marca", required = false) Long marca) {
+	
+		ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
+
+		if (descricao != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByDescricao(descricao));
+		} else if (categoria != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByCategoria(categoria));
+		} else if (marca != null) {
+			mv.addObject("listaProdutos", this.produtoRepositorio.findAllByMarca(marca));
+		}
+
+		mv.addObject("listaCategoria", categoriaRepositorio.findAll());
+		mv.addObject("listaMarca", marcaRepositorio.findAll());
+
+		return mv;
 	}
 
 }
