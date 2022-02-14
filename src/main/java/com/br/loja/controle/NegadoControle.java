@@ -7,8 +7,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class NegadoControle {
 	@GetMapping("/negado")
-	public ModelAndView login() {
+	public ModelAndView negadoAdmin() {
 		ModelAndView mv = new ModelAndView("/negado");
+
+		return mv;
+	}
+
+	@GetMapping("/negadoCliente")
+	public ModelAndView negadoCliente() {
+		ModelAndView mv = new ModelAndView("/negadoCliente");
 
 		return mv;
 	}

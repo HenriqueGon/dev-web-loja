@@ -15,49 +15,58 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
-public class BasicConfiguration extends WebSecurityConfigurerAdapter {
+@Order(1)
+public class SecurityCliente extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
+  @Bean
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    // auth.inMemoryAuthentication()
+    // .withUser("user")
+    // .password(this.passwordEncoder().encode("123"))
+    // .roles("USER")
+    // .and()
+    // .withUser("admin")
+    // .password(this.passwordEncoder().encode("admin"))
+    // .roles("USER", "ADMIN");
+
     auth.jdbcAuthentication()
         .dataSource(this.dataSource)
-        .usersByUsernameQuery(
-            "SELECT email AS username, senha AS password, 1 AS enable FROM funcionario WHERE email = ?")
-        .authoritiesByUsernameQuery(
-            "SELECT f.email AS username, pa.nome AS authority FROM permissoes AS p INNER JOIN funcionario AS f ON f.id = p.funcionario_id INNER JOIN papel AS pa ON pa.id = p.papel_id WHERE f.email = ?")
-        .passwordEncoder(new BCryptPasswordEncoder());
+        .usersByUsernameQuery("SELECT email AS username, senha AS password, 1 AS enable FROM cliente WHERE email = ?")
+        .authoritiesByUsernameQuery("SELECT email AS username, 'cliente' AS authority FROM cliente WHERE email = ?")
+        .passwordEncoder(this.passwordEncoder());
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-      .antMatchers("login/**")
-      .permitAll()
-      .antMatchers("/administrativo/cadastrar/**")
-      .hasAuthority("gerente")
-      .antMatchers("/administrativo/**")
-      .authenticated()
+    http.antMatcher("/finalizar/**")
+      .authorizeRequests()
+      .anyRequest()
+      .hasAnyAuthority("cliente")
       .and()
+      .csrf()
+      .disable()
       .formLogin()
-      .loginPage("/login")
-      .failureUrl("/login")
-      .loginProcessingUrl("/admin")
-      .defaultSuccessUrl("/administrativo")
+      .loginPage("/cliente/cadastrar")
+      .permitAll()
+      .failureUrl("/cliente/cadastrar")
+      .loginProcessingUrl("/finalizar/login")
+      .defaultSuccessUrl("/finalizar")
       .usernameParameter("username")
       .passwordParameter("password")
       .and()
       .logout()
-      .logoutRequestMatcher(new AntPathRequestMatcher("/administrativo/logout"))
-      .logoutSuccessUrl("/login")
-      .deleteCookies("JSESSIONID")
+      .logoutRequestMatcher(new AntPathRequestMatcher("/finalizar/logout"))
+      .logoutSuccessUrl("/")
+      .permitAll()
       .and()
       .exceptionHandling()
-      .accessDeniedPage("/negado")
-      .and()
-      .csrf()
-      .disable();
+      .accessDeniedPage("/negadoCliente");
   }
 }

@@ -43,8 +43,8 @@ public class RecuperacaoSenha {
     String linkRecuperacaoSenha = Utility.getSiteURL(request) + "/alterar_senha?token=" + token;
 
     String texto = "<p> Olá, </p>" + "<p> Você solicitou a redefinição da sua senha de acesso. </p>"
-        + "<p> Clique no link abaixo para mudar sua senha! </p>" + "<p> <b> <a href=\"" + linkRecuperacaoSenha
-        + "\" > Alterar minha senha </a> </b> </p>"
+        + "<p> Clique no link abaixo para mudar sua senha! </p>" 
+        + "<p> <b> <a href=\"" + linkRecuperacaoSenha + "\" > Alterar minha senha </a> </b> </p>"
         + "<p> Ignore esse email caso não tenha sido você que fez a solicitação! </p>";
 
     try {
